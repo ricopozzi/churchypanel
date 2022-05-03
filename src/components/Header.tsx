@@ -5,7 +5,7 @@ export function Header({ ...rest }) {
   return (
     <div {...rest}>
       <Link href='/home'>
-        <Image src='/rhema.png' width={250} height={60} />
+        <Image src='/rhemaPreto.png' width={220} height={50} />
       </Link>
     </div>
   );

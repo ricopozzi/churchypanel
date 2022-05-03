@@ -138,12 +138,12 @@ export default function Post() {
 
   return (
     <>
-      <main className='w-screen min-h-screen bg-[#17161D] flex pt-10 items-center flex-col'>
+      <main className='w-screen min-h-screen md:w-2/5 mx-auto bg-[#fafafa] flex pt-10 items-center flex-col'>
         <Header />
         <Link href={"/home"}>
           <FaArrowLeft
             size={24}
-            color={"#fafafa"}
+            color={"black"}
             className='absolute left-4 top-14'
           />
         </Link>
@@ -152,77 +152,77 @@ export default function Post() {
           onSubmit={handleSubmit(onSubmit)}
           className='w-5/6 min-h-3/4 mt-10 flex flex-col items-center justify-center py-10'
         >
-          <div>
-            <span className='font-semibold text-md text-slate-50'>Foto 1</span>
+          <div className='flex flex-col mr-auto'>
+            <span className='font-semibold text-md text-slate-800'>Foto 1</span>
             <input
               type='file'
-              className='h-10 mt-4 text-slate-50'
+              className='h-10 mt-4 text-slate-800'
               //@ts-ignore
               onChange={(e) => setImage1(e.target.files[0])}
             />
           </div>
-          <div>
-            <span className='font-semibold text-md text-slate-50'>Foto 2</span>
+          <div className='flex flex-col mr-auto'>
+            <span className='font-semibold text-md text-slate-800'>Foto 2</span>
             <input
               type='file'
-              className='h-10 mt-4 text-slate-50'
+              className='h-10 mt-4 text-slate-800'
               accept='.png,.jpeg,.jpg,.JPG,.JPEG'
               //@ts-ignore
               onChange={(e) => setImage2(e.target.files[0])}
             />
           </div>
-          <div>
-            <span className='font-semibold text-md text-slate-50'>Foto 3</span>
+          <div className='flex flex-col mr-auto'>
+            <span className='font-semibold text-md text-slate-800'>Foto 3</span>
             <input
               type='file'
-              className='h-10 mt-4 text-slate-50'
+              className='h-10 mt-4 text-slate-800'
               accept='.png,.jpeg,.jpg,.JPG,.JPEG'
               //@ts-ignore
               onChange={(e) => setImage3(e.target.files[0])}
             />
           </div>
-          <div>
-            <span className='font-semibold text-md text-slate-50'>Foto 4</span>
+          <div className='flex flex-col mr-auto'>
+            <span className='font-semibold text-md text-slate-800'>Foto 4</span>
             <input
               type='file'
-              className='h-10 mt-4 text-slate-50'
+              className='h-10 mt-4 text-slate-800'
               accept='.png,.jpeg,.jpg,.JPG,.JPEG'
               //@ts-ignore
               onChange={(e) => setImage4(e.target.files[0])}
             />
           </div>
-          <div>
-            <span className='font-semibold text-md text-slate-50'>Foto 5</span>
+          <div className='flex flex-col mr-auto'>
+            <span className='font-semibold text-md text-slate-800'>Foto 5</span>
             <input
               type='file'
-              className='h-10 mt-4 text-slate-50'
+              className='h-10 mt-4 text-slate-800'
               accept='.png,.jpeg,.jpg,.JPG,.JPEG'
               //@ts-ignore
               onChange={(e) => setImage5(e.target.files[0])}
             />
           </div>
           <div className='w-full text-red-300 flex flex-col '>
-            <p className='font-semibold text-md text-slate-50'>Título</p>
+            <p className='font-semibold text-md text-slate-800'>Título</p>
             <input
               type='text'
-              className='mt-2 w-3/4 rounded-md h-8 text-slate-800'
+              className='mt-2 w-3/4 rounded-md h-8 text-slate-800 border-2 border-slate-800'
               {...register("title", { required: true, maxLength: 18 })}
             />
             {errors.title?.type === "required" && "Esse campo é obrigatório"}
           </div>
           <div className='w-full text-red-300 flex flex-col mt-4 '>
-            <p className='font-semibold text-md text-slate-50'>
+            <p className='font-semibold text-md text-slate-800'>
               Texto Principal
             </p>
             <textarea
-              className='mt-2 w-full rounded-md h-80 text-slate-800 '
+              className='mt-2 w-full rounded-md h-80 text-slate-800 border-2 border-slate-800 p-2'
               {...register("mainText", { required: true })}
             />
             {errors.mainText?.type === "required" && "Esse campo é obrigatório"}
           </div>
 
           <button
-            className='bg-slate-50 w-1/2 mx-auto rounded-md mt-10 h-12 cursor-pointer '
+            className='bg-slate-800 text-slate-50 w-1/2 mx-auto rounded-md mt-10 h-12 cursor-pointer '
             type='submit'
           >
             Enviar

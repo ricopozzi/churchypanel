@@ -131,21 +131,21 @@ export default function SimpleEvents() {
 
   return (
     <>
-      <main className='w-screen min-h-screen bg-[#17161D] flex pt-10 items-center flex-col'>
+      <main className='w-screen min-h-screen md:w-2/5 mx-auto bg-[#fafafa] flex pt-10 items-center flex-col'>
         <Header />
         <Link href='/events'>
           <FaArrowLeft
             size={24}
-            color={"#fafafa"}
+            color={"black"}
             className='absolute left-4 top-14'
           />
         </Link>
         <button
           onClick={() => setNewEventOpened(!newEventOpened)}
-          className='w-1/2 h-9 bg-emerald-300 bg-opacity-60 font-semibold text-slate-900 mt-10 rounded-lg flex justify-center
+          className='w-1/2 h-9 bg-emerald-400 font-semibold text-gray-200 mt-10 rounded-lg flex justify-center
            items-center'
         >
-          Novo Evento <FaPlus />
+          Novo Evento <FaPlus className='ml-2' />
         </button>
         {newEventOpened ? (
           <>
@@ -154,23 +154,23 @@ export default function SimpleEvents() {
               className=' w-11/12 min-h-screen py-16 px-3'
             >
               <div>
-                <p className='text-slate-200 text-md font-bold'>
+                <p className='text-slate-800 text-md font-bold'>
                   Imagem de fundo
                 </p>
 
                 <input
                   type='file'
-                  className='text-slate-50 mt-2'
+                  className='text-slate-800 mt-2'
                   accept='.png,.jpeg,.jpg,.JPG,.JPEG'
                   //@ts-ignore
                   onChange={(e) => setImage(e.target.files[0])}
                 />
               </div>
               <div className='mt-5 flex flex-col'>
-                <p className='text-slate-200 text-md font-bold'>Título</p>
+                <p className='text-slate-800 text-md font-bold'>Título</p>
                 <input
                   type='text'
-                  className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm'
+                  className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm border-2 border-slate-800'
                   {...register("title", { required: true, maxLength: 24 })}
                 />
                 <p className='text-red-600'>
@@ -178,7 +178,7 @@ export default function SimpleEvents() {
                 </p>
               </div>
               <div className='mt-5 flex flex-col'>
-                <p className='text-slate-200 text-md font-bold'>
+                <p className='text-slate-800 text-md font-bold'>
                   Dia da Semana
                 </p>
                 <Controller
@@ -206,11 +206,11 @@ export default function SimpleEvents() {
                 </p>
               </div>
               <div className='mt-5 flex flex-col'>
-                <p className='text-slate-200 text-sm font-bold'>
+                <p className='text-slate-800 text-sm font-bold'>
                   Descrição curta (max: 60 caracteres)
                 </p>
                 <textarea
-                  className='mt-2 w-5/6 h-16 rounded-md px-2 text-sm'
+                  className='mt-2 w-5/6 h-16 rounded-md px-2 text-sm border-2 border-slate-800'
                   {...register("shortDescription", {
                     maxLength: 60,
                     required: true,
@@ -223,7 +223,7 @@ export default function SimpleEvents() {
               </div>
               <button
                 type='submit'
-                className='w-5/6 h-9 bg-slate-300 rounded-md mt-5 flex items-center justify-center text-lg font-medium '
+                className='w-5/6 h-9 bg-slate-800 text-slate-100 rounded-md mt-5 flex items-center justify-center text-lg font-medium '
               >
                 Enviar
               </button>
@@ -237,7 +237,7 @@ export default function SimpleEvents() {
             events.map((item, index) => (
               <div
                 key={item.id}
-                className='text-slate-50 w-full h-32 flex justify-between items-center'
+                className='text-slate-800 w-full h-32 mt-6 flex justify-between items-center'
               >
                 <img
                   src={item.imageurl}
@@ -254,7 +254,7 @@ export default function SimpleEvents() {
 
                 <button
                   onClick={() => dropEvent(item.id, item.bucketurl)}
-                  className='bg-red-700 bg-opacity-40 w-20 h-9 flex items-center justify-center rounded-md text-sm text-red-600 font-bold'
+                  className='bg-red-600  w-20 h-9 flex items-center justify-center rounded-md  text-slate-100 font-bold'
                 >
                   Deletar
                 </button>

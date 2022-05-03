@@ -39,7 +39,7 @@ const Home: NextPage = () => {
       <Head key='_login'>
         <title>Churchy | Login</title>
       </Head>
-      <main className='w-screen h-screen bg-[#17161D] flex flex-col justify-center items-center px-2'>
+      <main className='w-screen h-screen bg-[#fafafa] flex flex-col justify-center items-center px-2'>
         <Header className='fixed top-16' />
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -51,21 +51,21 @@ const Home: NextPage = () => {
             <p></p>
           )}
           <div className='flex flex-col w-4/6 '>
-            <label className='text-slate-300 font-semibold'>Email :</label>
+            <label className='text-slate-800 font-semibold'>Email :</label>
             <input
-              className='placeholder:italic placeholder:text-slate-400 block bg-inherit w-full border border-orange-500
-              rounded py-2 pl-5 pr-3 shadow-sm focus:outline-none   text-slate-50
-              focus:ring-1 sm:text-md mt-2   duration-200'
+              className='placeholder:italic placeholder:text-slate-800 block bg-inherit w-full border border-slate-800
+              rounded py-2 pl-5 pr-3 shadow-sm focus:outline-non
+              focus:ring-1 sm:text-md mt-2 text-slate-800 duration-200'
               type='text'
               {...register("email")}
             />
             <p className='text-red-500'>{errors.email?.message}</p>
           </div>
           <div className='mt-6 flex flex-col w-4/6'>
-            <label className='text-slate-300 font-semibold'>Senha :</label>
+            <label className='text-slate-800 font-semibold'>Senha :</label>
             <input
-              className='placeholder:italic placeholder:text-slate-400 block bg-inherit w-full border border-orange-500
-                   rounded py-2 pl-5 pr-3 shadow-sm focus:outline-none   text-slate-50
+              className='placeholder:italic placeholder:text-slate-800 block bg-inherit w-full border border-slate-800
+                   rounded py-2 pl-5 pr-3 shadow-sm focus:outline-none text-slate-800
                    focus:ring-1 sm:text-md mt-2   duration-200'
               type='password'
               {...register("password")}
@@ -74,8 +74,7 @@ const Home: NextPage = () => {
           </div>
           <button
             type='submit'
-            className='border-2 border-orange-600 w-36 h-10 mt-10 rounded text-slate-50 font-semibold hover:border-indigo-900 duration-200
-              hover:cursor-pointer'
+            className='bg-slate-800 w-36 h-10 mt-10 rounded text-slate-50 font-semibold hover:cursor-pointer'
           >
             Entrar
           </button>

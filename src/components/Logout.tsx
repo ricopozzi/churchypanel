@@ -11,8 +11,8 @@ export function Logout() {
   return (
     <>
       <div
-        className='bg-red-400 bg-opacity-40 absolute right-2 top-2 w-1/6 rounded-md
-      h-7 mx-auto flex justify-center items-center font-semibold antialiased text-red-300'
+        className='bg-red-500  absolute right-2 md:right-20 top-2 w-1/6 md:w-24 rounded-sm
+      h-7 mx-auto flex justify-center items-center font-semibold antialiased text-slate-50'
         onClick={signOutUser}
       >
         sair

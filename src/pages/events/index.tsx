@@ -9,18 +9,18 @@ import Link from "next/link";
 export default function Events() {
   return (
     <>
-      <main className='w-screen min-h-screen bg-[#17161D] flex pt-10 items-center flex-col'>
+      <main className='w-screen min-h-screen bg-[#fafafa] flex pt-10 items-center flex-col'>
         <Header />
         <Link href='/home'>
           <FaArrowLeft
             size={24}
-            color={"#fafafa"}
+            color={"black"}
             className='absolute left-4 top-14'
           />
         </Link>
         <Link href='/events/main'>
           <button>
-            <div className='bg-slate-300 w-80 h-20 mt-12 rounded-lg bg-opacity-40 flex justify-center items-center text-slate-100 font-semibold text-xl '>
+            <div className='bg-[#F6C056] w-80 h-20 mt-12 rounded-lg flex justify-center items-center text-slate-50 font-semibold text-xl '>
               Evento Destaque
               <AiOutlineEdit
                 size={28}
@@ -31,7 +31,7 @@ export default function Events() {
         </Link>
         <Link href='/events/simpleevents'>
           <button>
-            <div className='bg-slate-300 w-80 h-20 mt-12 rounded-lg bg-opacity-40 flex justify-center items-center text-slate-100 font-semibold text-md '>
+            <div className='bg-[#F6C056] w-80 h-20 mt-12 rounded-lg  flex justify-center items-center text-slate-50 font-semibold text-md '>
               Programação Semanal
               <AiOutlineEdit
                 size={28}
