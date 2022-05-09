@@ -37,6 +37,13 @@ export default function HomePage() {
               </span>
             </div>
           </Link>
+          <Link href='/quote'>
+            <div className='w-4/6 h-20  mt-8 bg-[#F6C056] rounded-lg flex justify-center items-center active:bg-opacity-40 cursor-pointer'>
+              <span className='opacity-100 text-[#fafafa] text-2xl font-semibold '>
+                Frase do Dia
+              </span>
+            </div>
+          </Link>
         </section>
       </main>
     </>
