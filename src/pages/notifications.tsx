@@ -28,7 +28,7 @@ export default function Notifications() {
       const { data, error } = await supabase
         .from("profile")
         .select("pushtokens");
-
+      //@ts-ignore
       const tokensArray = [];
 
       const mapy = data?.map((item) => {
@@ -36,7 +36,7 @@ export default function Notifications() {
           tokensArray.push(item.pushtokens);
         }
       });
-
+      //@ts-ignore
       return setTokens([...new Set(tokensArray)]);
     })();
   }, []);
