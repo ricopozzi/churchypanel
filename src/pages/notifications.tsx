@@ -37,7 +37,7 @@ export default function Notifications() {
         }
       });
 
-      return setTokens(tokensArray);
+      return setTokens([...new Set(tokensArray)]);
     })();
   }, []);
 

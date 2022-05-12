@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Header } from "../components/Header";
 import { useForm } from "react-hook-form";
 import { FaArrowLeft } from "react-icons/fa";
+import { supabase } from "../lib/supabase";
 
 export default function Devocional() {
   const {
@@ -10,8 +11,21 @@ export default function Devocional() {
     register,
   } = useForm();
 
-  const onSubmit = (data: any) => {
-    return console.log(data);
+  const onSubmit = async (data: any) => {
+    const { error } = await supabase
+      .from("devotional")
+      .update({
+        title: data.title,
+        chapter: data.verse,
+        mainText: data.mainText,
+      })
+      .match({ id: 1 });
+
+    if (error) {
+      throw error;
+    }
+
+    return;
   };
 
   return (

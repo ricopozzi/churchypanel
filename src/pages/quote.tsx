@@ -15,6 +15,10 @@ export default function Quotes() {
       .update({ author: data.author, text: data.quote })
       .match({ id: 1 });
 
+    if (error) {
+      throw error;
+    }
+
     return console.log(data);
   };
 
