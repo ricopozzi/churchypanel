@@ -92,10 +92,6 @@ export default function SimpleEvents() {
       selectedDayNumber = 7;
     }
 
-    console.log(data.ReactSelect.value);
-
-    console.log(selectedDayNumber);
-
     const { data: addTable, error: addTableError } = await supabase
       .from("smallevents")
       .insert([
@@ -106,6 +102,8 @@ export default function SimpleEvents() {
           shortdescription: data.shortDescription,
           dayoftheweek: data.ReactSelect.value,
           dayasnumber: selectedDayNumber,
+          adress: data.adress,
+          time: data.time,
         },
       ]);
 
@@ -219,6 +217,28 @@ export default function SimpleEvents() {
                 <p className='text-red-600'>
                   {errors.shortDescription &&
                     "A descrição é necessária (máx: 60 caracteres) "}
+                </p>
+              </div>
+              <div className='mt-5 flex flex-col'>
+                <p className='text-slate-800 text-md font-bold'>Endereço</p>
+                <input
+                  type='text'
+                  className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm border-2 border-slate-800'
+                  {...register("adress", { required: true })}
+                />
+                <p className='text-red-600'>
+                  {errors.adress && "É necessário um endereço"}
+                </p>
+              </div>
+              <div className='mt-5 flex flex-col'>
+                <p className='text-slate-800 text-md font-bold'>Hora</p>
+                <input
+                  type='time'
+                  className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm border-2 border-slate-800'
+                  {...register("time", { required: true })}
+                />
+                <p className='text-red-600'>
+                  {errors.time && "É necessário um horário"}
                 </p>
               </div>
               <button

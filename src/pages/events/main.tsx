@@ -6,12 +6,16 @@ import { FaArrowLeft } from "react-icons/fa";
 import { AiOutlineEdit } from "react-icons/ai";
 import Link from "next/link";
 import { v4 as uuidV4 } from "uuid";
+import { Loading } from "../../components/Loading";
 
 interface DefaultEventProps {
   title: string;
   shortDescription: string;
   imageurl: string;
   description: string;
+  adress?: string;
+  date?: string;
+  time?: string;
 }
 
 export default function Events() {
@@ -22,7 +26,12 @@ export default function Events() {
     imageurl:
       "https://skillz4kidzmartialarts.com/wp-content/uploads/2017/04/default-image-620x600.jpg",
     description: "xxx",
+    adress: "xxx",
+    date: "xx",
+    time: "xxx",
   });
+
+  const [loading, setLoading] = useState(false);
 
   const {
     handleSubmit,
@@ -34,7 +43,9 @@ export default function Events() {
     (async () => {
       const { data, error } = await supabase
         .from("events")
-        .select("title, shortDescription, imageurl, description")
+        .select(
+          "title, shortDescription, imageurl, description, adress, date, time"
+        )
         .match({ id: "41fca09e-08fe-4e44-a542-143cf2b4c3bb" });
       //@ts-ignore
       setDefaultEvent(data[0]);
@@ -42,6 +53,7 @@ export default function Events() {
   }, []);
 
   const onSubmit = async (data: any) => {
+    setLoading(true);
     if (image) {
       //@ts-ignore
       const {} = await supabase.storage.emptyBucket("mainevent");
@@ -70,8 +82,14 @@ export default function Events() {
         bucketurl: uploadData?.Key,
         title: data.title,
         shortDescription: data.shortDescription,
+        description: data.description,
+        adress: data.adress,
+        time: data.time,
+        date: data.date,
       })
       .match({ id: "41fca09e-08fe-4e44-a542-143cf2b4c3bb" });
+
+    setLoading(false);
   };
 
   return (
@@ -86,55 +104,106 @@ export default function Events() {
           />
         </Link>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className=' w-11/12 min-h-40 pt-16 pb-4 px-3'
-        >
-          <div>
-            <p className='text-slate-800 text-md font-bold'>Imagem de fundo</p>
+        {loading ? (
+          <Loading />
+        ) : (
+          <>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className=' w-11/12 min-h-40 pt-16 pb-4 px-3'
+            >
+              <div>
+                <p className='text-slate-800 text-md font-bold'>
+                  Imagem de fundo
+                </p>
 
-            <input
-              type='file'
-              className='text-slate-800 mt-2'
-              accept='.png,.jpeg,.jpg,.JPG,.JPEG'
-              //@ts-ignore
-              onChange={(e) => setImage(e.target.files[0])}
-            />
-          </div>
-          <div className='mt-5 flex flex-col'>
-            <p className='text-slate-800 text-md font-bold'>Título</p>
-            <input
-              type='text'
-              className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm text-slate-800 border-2 border-slate-800'
-              {...register("title", { required: true, maxLength: 24 })}
-            />
-            <p className='text-red-600'>
-              {errors.title && "É necessário um título"}
-            </p>
-          </div>
-          <div className='mt-5 flex flex-col'>
-            <p className='text-slate-800 text-sm font-bold'>
-              Descrição curta (max: 60 caracteres)
-            </p>
-            <textarea
-              className='mt-2 w-5/6 h-16 rounded-md px-2 text-sm text-slate-800 border-2 border-slate-800'
-              {...register("shortDescription", {
-                maxLength: 60,
-                required: true,
-              })}
-            />
-            <p className='text-red-600'>
-              {errors.shortDescription &&
-                "A descrição é necessária (máx: 60 caracteres) "}
-            </p>
-          </div>
-          <button
-            type='submit'
-            className='w-5/6 h-9 bg-slate-800 rounded-md mt-5 flex items-center justify-center text-md text-slate-50 font-medium '
-          >
-            Editar
-          </button>
-        </form>
+                <input
+                  type='file'
+                  className='text-slate-800 mt-2'
+                  accept='.png,.jpeg,.jpg,.JPG,.JPEG'
+                  //@ts-ignore
+                  onChange={(e) => setImage(e.target.files[0])}
+                />
+              </div>
+              <div className='mt-5 flex flex-col'>
+                <p className='text-slate-800 text-md font-bold'>Título</p>
+                <input
+                  type='text'
+                  className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm text-slate-800 border-2 border-slate-800'
+                  {...register("title", { required: true, maxLength: 24 })}
+                />
+                <p className='text-red-600'>
+                  {errors.title && "É necessário um título"}
+                </p>
+              </div>
+              <div className='mt-5 flex flex-col'>
+                <p className='text-slate-800 text-sm font-bold'>
+                  Descrição curta (max: 60 caracteres)
+                </p>
+                <textarea
+                  className='mt-2 w-5/6 h-16 rounded-md px-2 text-sm text-slate-800 border-2 border-slate-800'
+                  {...register("shortDescription", {
+                    maxLength: 60,
+                    required: true,
+                  })}
+                />
+                <p className='text-red-600'>
+                  {errors.shortDescription &&
+                    "A descrição é necessária (máx: 60 caracteres) "}
+                </p>
+              </div>
+              <div className='mt-5 flex flex-col'>
+                <p className='text-slate-800 text-sm font-bold'>
+                  Descrição (max: 120 caracteres)
+                </p>
+                <textarea
+                  className='mt-2 w-5/6 h-32 rounded-md px-2 text-sm text-slate-800 border-2 border-slate-800'
+                  {...register("description", {
+                    maxLength: 120,
+                    required: true,
+                  })}
+                />
+                <p className='text-red-600'>
+                  {errors.description &&
+                    "A descrição é necessária (máx: 120 caracteres) "}
+                </p>
+              </div>
+              <div className='mt-5 flex flex-col'>
+                <p className='text-slate-800 text-md font-bold'>Endereço</p>
+                <input
+                  type='text'
+                  className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm text-slate-800 border-2 border-slate-800'
+                  {...register("adress", { maxLength: 45 })}
+                />
+                <p className='text-red-600'>
+                  {errors.adress && "máx: 45 caracteres"}
+                </p>
+              </div>
+              <div className='mt-5 flex flex-col'>
+                <p className='text-slate-800 text-md font-bold'>Data</p>
+                <input
+                  type='date'
+                  className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm text-slate-800 border-2 border-slate-800'
+                  {...register("date")}
+                />
+              </div>
+              <div className='mt-5 flex flex-col'>
+                <p className='text-slate-800 text-md font-bold'>Hora</p>
+                <input
+                  type='time'
+                  className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm text-slate-800 border-2 border-slate-800'
+                  {...register("time")}
+                />
+              </div>
+              <button
+                type='submit'
+                className='w-5/6 h-9 bg-slate-800 rounded-md mt-5 flex items-center justify-center text-md text-slate-50 font-medium '
+              >
+                Editar
+              </button>
+            </form>
+          </>
+        )}
 
         <section className='w-11/12 min-h-72 pt-3 px-3 text-lg mb-6 text-slate-800 antialised '>
           <h1 className='mb-3 font-black text-xl'>Evento Atual</h1>
@@ -145,7 +214,18 @@ export default function Events() {
           <div className='border-b border-slate-400 mb-3 pb-2'>
             {defaultEvent.shortDescription}
           </div>
-          <div>{defaultEvent.description}</div>
+          <div className='border-b border-slate-400 mb-3 pb-2'>
+            {defaultEvent.description}
+          </div>
+          <div className='border-b border-slate-400 mb-3 pb-2'>
+            {defaultEvent.adress}
+          </div>
+          <div className='border-b border-slate-400 mb-3 pb-2'>
+            {defaultEvent.date}
+          </div>
+          <div className='border-b border-slate-400 mb-3 pb-2'>
+            {defaultEvent.time}
+          </div>
           <img
             className='w-2/3 h-4/5 mt-5 rounded-xl'
             src={defaultEvent.imageurl}

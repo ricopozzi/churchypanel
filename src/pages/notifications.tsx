@@ -6,6 +6,7 @@ import Link from "next/link";
 import { FaArrowLeft, FaRegArrowAltCircleLeft } from "react-icons/fa";
 import { useEffect } from "react";
 import { supabase } from "../lib/supabase";
+import { Loading } from "../components/Loading";
 
 export default function Notifications() {
   const [notificationSent, setNotificationSent] = useState(false);
@@ -79,7 +80,7 @@ export default function Notifications() {
         </div>
 
         {isLoading ? (
-          <div className='w-36 h-36 border-t-8 rounded-full border-yellow-600 animate-spin mt-14'></div>
+          <Loading />
         ) : (
           <div>
             {notificationSent ? (

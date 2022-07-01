@@ -225,9 +225,9 @@ export default function Post() {
             <input
               type='text'
               className='mt-2 w-3/4 rounded-md h-8 text-slate-800 border-2 border-slate-800'
-              {...register("title", { required: true, maxLength: 18 })}
+              {...register("title", { required: true, maxLength: 24 })}
             />
-            {errors.title?.type === "required" && "Esse campo é obrigatório"}
+            {errors.title && "Esse campo é obrigatório (max: 24 carateres)"}
           </div>
           <div className='w-full text-red-300 flex flex-col mt-4 '>
             <p className='font-semibold text-md text-slate-800'>
