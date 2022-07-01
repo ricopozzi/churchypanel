@@ -151,7 +151,7 @@ export default function SimpleEvents() {
           <>
             <form
               onSubmit={handleSubmit(onNewEventSubmit)}
-              className=' w-11/12 min-h-screen py-16 px-3'
+              className=' w-11/12 min-h-48 py-16 px-3'
             >
               <div>
                 <p className='text-slate-800 text-md font-bold'>

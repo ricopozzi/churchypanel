@@ -40,7 +40,10 @@ export default function Post() {
 
         //@ts-ignore
         const { publicURL } = supabase.storage
+          //@ts-ignore
           .from(splittedArray[0])
+          //@ts-ignore
+
           .getPublicUrl(`${splittedArray[1]}/${splittedArray[2]}`);
 
         picturesArray.push(publicURL);
@@ -58,7 +61,11 @@ export default function Post() {
         const splittedArray = uploadData?.Key.split("/");
 
         const { publicURL } = supabase.storage
+          //@ts-ignore
+
           .from(splittedArray[0])
+          //@ts-ignore
+
           .getPublicUrl(`${splittedArray[1]}/${splittedArray[2]}`);
 
         picturesArray.push(publicURL);
@@ -75,7 +82,11 @@ export default function Post() {
         const splittedArray = uploadData?.Key.split("/");
 
         const { publicURL } = supabase.storage
+          //@ts-ignore
+
           .from(splittedArray[0])
+          //@ts-ignore
+
           .getPublicUrl(`${splittedArray[1]}/${splittedArray[2]}`);
 
         picturesArray.push(publicURL);
@@ -92,7 +103,11 @@ export default function Post() {
         const splittedArray = uploadData?.Key.split("/");
 
         const { publicURL } = supabase.storage
+          //@ts-ignore
+
           .from(splittedArray[0])
+          //@ts-ignore
+
           .getPublicUrl(`${splittedArray[1]}/${splittedArray[2]}`);
 
         picturesArray.push(publicURL);
@@ -110,7 +125,11 @@ export default function Post() {
         const splittedArray = uploadData?.Key.split("/");
 
         const { publicURL } = supabase.storage
+          //@ts-ignore
+
           .from(splittedArray[0])
+          //@ts-ignore
+
           .getPublicUrl(`${splittedArray[1]}/${splittedArray[2]}`);
 
         picturesArray.push(publicURL);

@@ -39,7 +39,7 @@ const Home: NextPage = () => {
       <Head key='_login'>
         <title>Churchy | Login</title>
       </Head>
-      <main className='w-screen h-screen bg-[#fafafa] flex flex-col justify-center items-center px-2'>
+      <main className='w-screen h-screen md:w-2/6 md:mx-auto bg-[#fafafa] flex flex-col justify-center items-center px-2'>
         <Header className='fixed top-16' />
         <form
           onSubmit={handleSubmit(onSubmit)}

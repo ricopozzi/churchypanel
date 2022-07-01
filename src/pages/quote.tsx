@@ -1,6 +1,8 @@
 import { Header } from "../components/Header";
 import { useForm } from "react-hook-form";
 import { supabase } from "../lib/supabase";
+import Link from "next/link";
+import { FaArrowLeft } from "react-icons/fa";
 
 export default function Quotes() {
   const {
@@ -26,6 +28,13 @@ export default function Quotes() {
     <>
       <main className='w-screen md:w-2/5 mx-auto h-screen bg-[#fafafa] flex pt-10 items-center flex-col'>
         <Header />
+        <Link href={"/home"}>
+          <FaArrowLeft
+            size={24}
+            color={"black"}
+            className='absolute left-4 top-14'
+          />
+        </Link>
         <form
           className=' w-11/12 min-h-full px-10 py-10'
           onSubmit={handleSubmit(onSubmit)}
