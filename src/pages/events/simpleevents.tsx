@@ -142,7 +142,7 @@ export default function SimpleEvents() {
         {events ? (
           events.map((item, index) => (
             <div
-              key={item.id}
+              key={index}
               className='text-gray-200 w-11/12 min-h-32 mt-14 lg:mt-20 gap-y-10 flex flex-col lg:flex-row justify-between items-center'
             >
               <Image
