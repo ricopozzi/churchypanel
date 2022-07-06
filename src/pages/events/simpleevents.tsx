@@ -16,6 +16,7 @@ interface EventsProps {
   dayoftheweek: string;
   id: string;
   bucketurl: string;
+  time: any;
 }
 
 interface EventsImageProps {
@@ -41,7 +42,7 @@ export default function SimpleEvents() {
       const { data, error } = await supabase
         .from("smallevents")
         .select(
-          "dayoftheweek, shortdescription, imageurl, title, id, bucketurl"
+          "dayoftheweek, shortdescription, imageurl, title, id, bucketurl, time"
         );
 
       //@ts-ignore
@@ -129,18 +130,54 @@ export default function SimpleEvents() {
 
   return (
     <>
-      <main className='w-screen min-h-screen md:w-2/5 mx-auto bg-[#fafafa] flex pt-10 items-center flex-col'>
+      <main className='w-screen min-h-screen md:w-2/5 mx-auto flex pt-10 items-center flex-col'>
         <Header />
         <Link href='/events'>
           <FaArrowLeft
-            size={24}
-            color={"black"}
-            className='absolute left-4 top-14'
+            size={34}
+            color={"white"}
+            className='absolute left-4 lg:left-10 top-14 cursor-pointer'
           />
         </Link>
+        {events ? (
+          events.map((item, index) => (
+            <div
+              key={item.id}
+              className='text-gray-200 w-11/12 min-h-32 mt-14 lg:mt-20 gap-y-10 flex flex-col lg:flex-row justify-between items-center'
+            >
+              <Image
+                width={200}
+                height={140}
+                src={item.imageurl}
+                objectFit='contain'
+                className='w-1/3 h-full rounded-xl'
+              />
+
+              <div className='antialiased w-full h-full flex flex-col items-center justify-center'>
+                <p className='font-bold'>{item.title}</p>
+                <p className='font-normal'>{item.dayoftheweek}</p>
+
+                <p className='font-normal'>{item.time}</p>
+                <p className='w-auto text-left font-extralight text-xs'>
+                  {item.shortdescription}
+                </p>
+              </div>
+
+              <button
+                onClick={() => dropEvent(item.id, item.bucketurl)}
+                className='bg-red-500 w-40 h-9 flex items-center justify-center rounded-md  text-slate-100 font-semibold tracking-wide'
+              >
+                Deletar
+              </button>
+            </div>
+          ))
+        ) : (
+          <p></p>
+        )}
+
         <button
           onClick={() => setNewEventOpened(!newEventOpened)}
-          className='w-1/2 h-9 bg-emerald-400 font-semibold text-gray-200 mt-10 rounded-lg flex justify-center
+          className='w-1/2 h-12 bg-yellow-600 font-semibold text-gray-200 mt-10 rounded-lg flex justify-center
            items-center'
         >
           Novo Evento <FaPlus className='ml-2' />
@@ -149,23 +186,23 @@ export default function SimpleEvents() {
           <>
             <form
               onSubmit={handleSubmit(onNewEventSubmit)}
-              className=' w-11/12 min-h-48 py-16 px-3'
+              className=' w-full min-h-48 py-16 px-3'
             >
               <div>
-                <p className='text-slate-800 text-md font-bold'>
+                <p className='text-gray-200 text-md font-bold'>
                   Imagem de fundo
                 </p>
 
                 <input
                   type='file'
-                  className='text-slate-800 mt-2'
+                  className='text-gray-200 mt-2'
                   accept='.png,.jpeg,.jpg,.JPG,.JPEG'
                   //@ts-ignore
                   onChange={(e) => setImage(e.target.files[0])}
                 />
               </div>
               <div className='mt-5 flex flex-col'>
-                <p className='text-slate-800 text-md font-bold'>Título</p>
+                <p className='text-gray-200 text-md font-bold'>Título</p>
                 <input
                   type='text'
                   className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm border-2 border-slate-800'
@@ -176,7 +213,7 @@ export default function SimpleEvents() {
                 </p>
               </div>
               <div className='mt-5 flex flex-col'>
-                <p className='text-slate-800 text-md font-bold'>
+                <p className='text-gray-200 mb-2 text-md font-bold'>
                   Dia da Semana
                 </p>
                 <Controller
@@ -204,7 +241,7 @@ export default function SimpleEvents() {
                 </p>
               </div>
               <div className='mt-5 flex flex-col'>
-                <p className='text-slate-800 text-sm font-bold'>
+                <p className='text-gray-200 text-sm font-bold'>
                   Descrição curta (max: 60 caracteres)
                 </p>
                 <textarea
@@ -220,7 +257,7 @@ export default function SimpleEvents() {
                 </p>
               </div>
               <div className='mt-5 flex flex-col'>
-                <p className='text-slate-800 text-md font-bold'>Endereço</p>
+                <p className='text-gray-200 text-md font-bold'>Endereço</p>
                 <input
                   type='text'
                   className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm border-2 border-slate-800'
@@ -231,7 +268,7 @@ export default function SimpleEvents() {
                 </p>
               </div>
               <div className='mt-5 flex flex-col'>
-                <p className='text-slate-800 text-md font-bold'>Hora</p>
+                <p className='text-gray-200 text-md font-bold'>Hora</p>
                 <input
                   type='time'
                   className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm border-2 border-slate-800'
@@ -243,7 +280,7 @@ export default function SimpleEvents() {
               </div>
               <button
                 type='submit'
-                className='w-5/6 h-9 bg-slate-800 text-slate-100 rounded-md mt-5 flex items-center justify-center text-lg font-medium '
+                className='w-5/6 h-12 bg-yellow-600 text-slate-100 rounded-md mt-5 flex items-center justify-center text-lg font-medium '
               >
                 Enviar
               </button>
@@ -252,38 +289,7 @@ export default function SimpleEvents() {
         ) : (
           <p></p>
         )}
-        <div className=' w-11/12 min-h-screen py-16 px-3'>
-          {events ? (
-            events.map((item, index) => (
-              <div
-                key={item.id}
-                className='text-slate-800 w-full h-32 mt-6 flex justify-between items-center'
-              >
-                <img
-                  src={item.imageurl}
-                  className='w-1/3 h-full object-contain rounded-md'
-                />
-
-                <div className=' antialiased w-1/3 h-full flex flex-col justify-center'>
-                  <p className='font-bold'>{item.title}</p>
-                  <p className='font-normal'>{item.dayoftheweek}</p>
-                  <p className='w-auto text-left font-extralight text-xs'>
-                    {item.shortdescription}
-                  </p>
-                </div>
-
-                <button
-                  onClick={() => dropEvent(item.id, item.bucketurl)}
-                  className='bg-red-600  w-20 h-9 flex items-center justify-center rounded-md  text-slate-100 font-bold'
-                >
-                  Deletar
-                </button>
-              </div>
-            ))
-          ) : (
-            <p>s</p>
-          )}
-        </div>
+        <div className=' w-11/12 min-h-screen py-16 px-3'></div>
       </main>
     </>
   );

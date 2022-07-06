@@ -12,6 +12,7 @@ export default function Notifications() {
   const [notificationSent, setNotificationSent] = useState(false);
   const [tokens, setTokens] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [board, setBoard] = useState<any>();
 
   const {
     handleSubmit,
@@ -38,8 +39,18 @@ export default function Notifications() {
           tokensArray.push(item.pushtokens);
         }
       });
+
       //@ts-ignore
-      return setTokens([...new Set(tokensArray)]);
+      setTokens([...new Set(tokensArray)]);
+
+      const { data: notificationsData, error: notificationsError } =
+        await supabase
+          .from("notifications")
+          .select("title, description, id, created_at")
+          .order("id", { ascending: false })
+          .limit(10);
+
+      setBoard(notificationsData);
     })();
   }, []);
 
@@ -64,17 +75,42 @@ export default function Notifications() {
 
   return (
     <>
-      <main className='w-screen h-screen bg-[#fafafa] flex pt-10 items-center flex-col'>
+      <main className='max-w-screen min-h-screen flex pt-10 items-center flex-col'>
         <Link href={"/home"}>
           <FaArrowLeft
-            size={24}
-            color={"black"}
-            className='absolute left-4 top-14'
+            size={34}
+            color={"white"}
+            className='absolute left-4 lg:left-10 top-14 cursor-pointer'
           />
         </Link>
         <Header className='mx-auto' />
 
-        <div className='mt-24 md:w-1/5 text-center font-bold '>
+        <section className='mt-24 w-[90%] lg:w-1/4 bg-[#202024] min-h-[20rem] p-10 flex flex-col rounded-lg'>
+          <h1 className='text-center text-xl text-gray-100 font-bold'>
+            Mural de Avisos
+          </h1>
+          <div className='min-h-10 w-full'>
+            {board?.map((item: any) => {
+              return (
+                <div className='px-2 border-b mt-5 border-gray-600 min-h-10 '>
+                  <h1 className='text-lg text-gray-200 font-semibold'>
+                    {item.title}
+                  </h1>
+                  <div className='w-full h-full break-words my-2'>
+                    <p className='text-gray-200 text-sm w-full'>
+                      {item.description}
+                    </p>
+                    <p className='my-1 text-gray-100 font-normal'>
+                      {new Date(item.created_at).toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        <div className='mt-24 md:w-1/5 text-center font-bold text-gray-200 '>
           Essas notificações serão enviadas para todos os dispositivos e ficarão
           disponíveis no mural de avisos
         </div>
@@ -82,7 +118,7 @@ export default function Notifications() {
         {isLoading ? (
           <Loading />
         ) : (
-          <div>
+          <div className='w-full lg:w-1/4 px-4 min-h-10'>
             {notificationSent ? (
               <div className='text-lg text-yellow-400 font-semibold mt-20'>
                 Notificação enviada com sucesso
@@ -96,15 +132,15 @@ export default function Notifications() {
             ) : (
               <form
                 onSubmit={handleSubmit(onSubmit)}
-                className='flex flex-col mt-10'
+                className='flex flex-col mt-10 w-full'
               >
-                <div className='flex flex-row p-4 py-2 w-96 h-24 justify-start items-center bg-gray-300 shadow-md shadow-gray-600 drop-shadow-lg rounded-2xl '>
-                  <div className=' w-16 h-14 rounded-lg mr-4 bg-zinc-600 shadow-md flex justify-center items-center'>
-                    <img src='/rhemaburger.png' className='scale-75' alt='' />
-                  </div>
-                  <div className='flex flex-col ml-4'>
+                <div className='flex flex-row p-4 py-2 w-full min-h-24 justify-start items-center '>
+                  <div className='flex flex-col w-full'>
+                    <h1 className='text-gray-200 text-xl font-semibold'>
+                      Título
+                    </h1>
                     <input
-                      className='bg-transparent appearance-none border-b border-slate-900 focus:outline-none text-slate-900 font-semibold checked:border-none '
+                      className='bg-gray-100 appearance-none border-b border-slate-900 focus:outline-none h-10 px-2 rounded-md text-slate-900 mt-2 font-semibold checked:border-none w-full '
                       type='text'
                       {...register("title", {
                         required: true,
@@ -117,24 +153,23 @@ export default function Notifications() {
                         : ""}
                     </p>
 
-                    <input
-                      className='bg-transparent border-b focus:outline-none border-slate-900 font-normal '
-                      type='text'
+                    <h1 className='text-gray-200 font-semibold text-xl my-2'>
+                      Descrição
+                    </h1>
+                    <textarea
+                      className='mt-2 rounded-md h-32 p-2 border-b focus:outline-none border-slate-900 font-normal resize-none '
                       {...register("body", {
                         required: true,
-                        maxLength: 38,
                       })}
                     />
                     <p className='text-red-400 text-sm'>
-                      {errors.body
-                        ? "Campo Obrigatório (max: 38 caracteres)"
-                        : ""}
+                      {errors.body ? "Campo Obrigatório" : ""}
                     </p>
                   </div>
                 </div>
 
-                <button className='bg-red-500 w-32 h-9 mt-10 rounded flex items-center justify-center text-slate-100 font-semibold antialiased cursor-pointer'>
-                  Enviar push
+                <button className='bg-orange-300 w-40 h-12 mt-10 rounded-lg flex items-center justify-center mb-10 text-slate-100 text-lg font-semibold tracking-wide antialiased cursor-pointer'>
+                  Enviar aviso
                 </button>
               </form>
             )}

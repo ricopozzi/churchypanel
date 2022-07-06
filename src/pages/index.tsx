@@ -1,15 +1,13 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Header } from "../components/Header";
-import { supabase } from "../lib/supabase";
-import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { authContext } from "../hooks/authHook";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { Loading } from "../components/Loading";
 
 const schema = yup.object({
   email: yup
@@ -20,6 +18,8 @@ const schema = yup.object({
 });
 
 const Home: NextPage = () => {
+  const [loading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -27,11 +27,13 @@ const Home: NextPage = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const router = useRouter();
   const { loginUser, session, loginError } = useContext(authContext);
 
   const onSubmit = async (data: any) => {
-    return loginUser({ email: data.email, password: data.password });
+    setLoading(true);
+    await loginUser({ email: data.email, password: data.password });
+    console.log(loginError);
+    return setLoading(false);
   };
 
   return (
@@ -39,44 +41,63 @@ const Home: NextPage = () => {
       <Head key='_login'>
         <title>Churchy | Login</title>
       </Head>
-      <main className='w-screen h-screen md:w-2/6 md:mx-auto bg-[#fafafa] flex flex-col justify-center items-center px-2'>
-        <Header className='fixed top-16' />
+      <main className='bg-[#121214] w-screen h-screen flex flex-col lg:flex-row justify-center items-center gap-y-10 lg:gap-x-44'>
+        <div className=''>
+          <Image
+            src='/rhema.png'
+            objectFit='contain'
+            width={300}
+            height={100}
+          />
+          <h1 className='font-bold text-gray-200 text-4xl lg:text-5xl leading-[1.2]'>
+            Faça login na <br />
+            plataforma
+          </h1>
+        </div>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className='w-full h-3/6 flex justify-center items-center flex-col rounded-md '
+          className='bg-[#202024] w-11/12 md:w-[60%] h-[50%] lg:w-[35rem] lg:h-[33rem] rounded-lg flex flex-col justify-center items-center gap-12 p-10 lg:p-20'
         >
-          {loginError != "" ? (
-            <p className='mb-4 text-red-400 font-semibold'>{loginError}</p>
-          ) : (
-            <p></p>
-          )}
-          <div className='flex flex-col w-4/6 '>
-            <label className='text-slate-800 font-semibold'>Email :</label>
+          <div className='w-full'>
+            {loginError !== "" ? (
+              <p className='font-semibold text-base mb-4 text-orange-200 text-center '>
+                {loginError}
+              </p>
+            ) : null}
             <input
-              className='placeholder:italic placeholder:text-slate-800 block bg-inherit w-full border border-slate-800
-              rounded py-2 pl-5 pr-3 shadow-sm focus:outline-non
-              focus:ring-1 sm:text-md mt-2 text-slate-800 duration-200'
               type='text'
+              placeholder='E-mail'
               {...register("email")}
+              className='w-full bg-black h-16 rounded-lg focus:outline-none focus:border border-yellow-700 delay-100 ease-in-out text-gray-100 font-semibold
+                       p-3 md:text-xl placeholder:text-gray-100/40
+            '
             />
-            <p className='text-red-500'>{errors.email?.message}</p>
+            {errors?.email ? (
+              <p className='font-semibold text-base mt-1 text-orange-200 text-center '>
+                {errors?.email.message}
+              </p>
+            ) : null}
           </div>
-          <div className='mt-6 flex flex-col w-4/6'>
-            <label className='text-slate-800 font-semibold'>Senha :</label>
+          <div className='w-full'>
             <input
-              className='placeholder:italic placeholder:text-slate-800 block bg-inherit w-full border border-slate-800
-                   rounded py-2 pl-5 pr-3 shadow-sm focus:outline-none text-slate-800
-                   focus:ring-1 sm:text-md mt-2   duration-200'
               type='password'
+              placeholder='Senha'
               {...register("password")}
+              className='w-full bg-black h-16 rounded-lg focus:outline-none focus:border border-yellow-700 delay-100 ease-in-out text-gray-100 font-semibold
+                       p-3 md:text-xl placeholder:text-gray-100/40
+            '
             />
-            <p className='text-red-500'>{errors.password?.message}</p>
+            {errors?.password ? (
+              <p className='font-semibold text-base mt-1 text-orange-200 text-center '>
+                {errors?.password.message}
+              </p>
+            ) : null}
           </div>
           <button
             type='submit'
-            className='bg-slate-800 w-36 h-10 mt-10 rounded text-slate-50 font-semibold hover:cursor-pointer'
+            className='w-full h-16 bg-yellow-600 rounded-lg flex justify-center items-center text-gray-100 font-bold text-2xl gap-x-4'
           >
-            Entrar
+            {!loading ? "Entrar" : <Loading />}
           </button>
         </form>
       </main>

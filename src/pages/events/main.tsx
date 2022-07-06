@@ -9,10 +9,10 @@ import { v4 as uuidV4 } from "uuid";
 import { Loading } from "../../components/Loading";
 
 interface DefaultEventProps {
-  title: string;
-  shortDescription: string;
-  imageurl: string;
-  description: string;
+  title?: string;
+  shortDescription?: string;
+  imageurl?: string;
+  description?: string;
   adress?: string;
   date?: string;
   time?: string;
@@ -20,16 +20,7 @@ interface DefaultEventProps {
 
 export default function Events() {
   const [image, setImage] = useState<File>();
-  const [defaultEvent, setDefaultEvent] = useState<DefaultEventProps>({
-    title: "XXXX",
-    shortDescription: "XXXX",
-    imageurl:
-      "https://skillz4kidzmartialarts.com/wp-content/uploads/2017/04/default-image-620x600.jpg",
-    description: "xxx",
-    adress: "xxx",
-    date: "xx",
-    time: "xxx",
-  });
+  const [defaultEvent, setDefaultEvent] = useState<DefaultEventProps>({});
 
   const [loading, setLoading] = useState(false);
 
@@ -41,6 +32,7 @@ export default function Events() {
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       const { data, error } = await supabase
         .from("events")
         .select(
@@ -49,11 +41,11 @@ export default function Events() {
         .match({ id: "41fca09e-08fe-4e44-a542-143cf2b4c3bb" });
       //@ts-ignore
       setDefaultEvent(data[0]);
+      setLoading(false);
     })();
   }, []);
 
   const onSubmit = async (data: any) => {
-    setLoading(true);
     if (image) {
       //@ts-ignore
       const {} = await supabase.storage.emptyBucket("mainevent");
@@ -64,6 +56,7 @@ export default function Events() {
         .upload(`public/${uuidV4()}`, image);
 
       if (error) {
+        setLoading(false);
         throw error;
       }
     }
@@ -88,48 +81,71 @@ export default function Events() {
         date: data.date,
       })
       .match({ id: "41fca09e-08fe-4e44-a542-143cf2b4c3bb" });
-
-    setLoading(false);
   };
 
   return (
     <>
-      <main className='w-screen min-h-screen md:w-2/5 mx-auto bg-[#fafafa] flex pt-10 items-center flex-col'>
+      <main className='w-screen min-h-screen md:w-2/5 mx-auto flex pt-10 items-center flex-col'>
         <Header />
         <Link href='/events'>
           <FaArrowLeft
-            size={24}
-            color={"black"}
-            className='absolute left-4 top-14'
+            size={34}
+            color={"white"}
+            className='absolute left-5 lg:left-10 top-14'
           />
         </Link>
 
-        {loading ? (
-          <Loading />
-        ) : (
+        {loading ? null : (
           <>
+            <section className='w-11/12 min-h-72 pt-3 px-3 text-lg mt-10 mb-6 text-gray-100 antialised '>
+              <h1 className='mb-3  font-black text-xl'>Evento Atual</h1>
+
+              <div className='border-b border-gray-600 mb-3 pb-2'>
+                {defaultEvent.title}
+              </div>
+              <div className='border-b border-gray-600 mb-3 pb-2'>
+                {defaultEvent.shortDescription}
+              </div>
+              <div className='border-b border-gray-600  mb-3 pb-2'>
+                {defaultEvent.description}
+              </div>
+              <div className='border-b border-gray-600 mb-3 pb-2'>
+                {defaultEvent.adress}
+              </div>
+              <div className='border-b border-gray-600 mb-3 pb-2'>
+                {/**@ts-ignore */}
+                {new Date(defaultEvent.date).toLocaleDateString()}
+              </div>
+              <div className='border-b border-gray-600 mb-3 pb-2'>
+                {defaultEvent.time}
+              </div>
+              <img
+                className='lg:w-2/3 h-4/5 mt-5 rounded-xl border-4 border-gray-100/40'
+                src={defaultEvent.imageurl}
+              />
+            </section>
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className=' w-11/12 min-h-40 pt-16 pb-4 px-3'
+              className=' w-full min-h-40 pt-16 pb-10 px-3'
             >
               <div>
-                <p className='text-slate-800 text-md font-bold'>
+                <p className='text-gray-200 text-md font-bold'>
                   Imagem de fundo
                 </p>
 
                 <input
                   type='file'
-                  className='text-slate-800 mt-2'
+                  className='text-gray-200 mt-2'
                   accept='.png,.jpeg,.jpg,.JPG,.JPEG'
                   //@ts-ignore
                   onChange={(e) => setImage(e.target.files[0])}
                 />
               </div>
               <div className='mt-5 flex flex-col'>
-                <p className='text-slate-800 text-md font-bold'>Título</p>
+                <p className='text-gray-200 text-md font-bold'>Título</p>
                 <input
                   type='text'
-                  className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm text-slate-800 border-2 border-slate-800'
+                  className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm text-gray-800 border-2 border-gray-200'
                   {...register("title", { required: true, maxLength: 24 })}
                 />
                 <p className='text-red-600'>
@@ -137,11 +153,11 @@ export default function Events() {
                 </p>
               </div>
               <div className='mt-5 flex flex-col'>
-                <p className='text-slate-800 text-sm font-bold'>
+                <p className='text-gray-200 text-sm font-bold'>
                   Descrição curta (max: 60 caracteres)
                 </p>
                 <textarea
-                  className='mt-2 w-5/6 h-16 rounded-md px-2 text-sm text-slate-800 border-2 border-slate-800'
+                  className='mt-2 w-5/6 h-16 rounded-md px-2 text-sm text-gray-00 border-2 border-gray-200'
                   {...register("shortDescription", {
                     maxLength: 60,
                     required: true,
@@ -153,11 +169,11 @@ export default function Events() {
                 </p>
               </div>
               <div className='mt-5 flex flex-col'>
-                <p className='text-slate-800 text-sm font-bold'>
+                <p className='text-gray-200 text-sm font-bold'>
                   Descrição (max: 120 caracteres)
                 </p>
                 <textarea
-                  className='mt-2 w-5/6 h-32 rounded-md px-2 text-sm text-slate-800 border-2 border-slate-800'
+                  className='mt-2 w-5/6 h-32 rounded-md px-2 text-sm text-gray-800 border-2 border-gray-200'
                   {...register("description", {
                     maxLength: 120,
                     required: true,
@@ -169,10 +185,10 @@ export default function Events() {
                 </p>
               </div>
               <div className='mt-5 flex flex-col'>
-                <p className='text-slate-800 text-md font-bold'>Endereço</p>
+                <p className='text-gray-200 text-md font-bold'>Endereço</p>
                 <input
                   type='text'
-                  className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm text-slate-800 border-2 border-slate-800'
+                  className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm text-gray-800 border-2 border-gray-200'
                   {...register("adress", { maxLength: 45 })}
                 />
                 <p className='text-red-600'>
@@ -180,57 +196,30 @@ export default function Events() {
                 </p>
               </div>
               <div className='mt-5 flex flex-col'>
-                <p className='text-slate-800 text-md font-bold'>Data</p>
+                <p className='text-gray-200 text-md font-bold'>Data</p>
                 <input
                   type='date'
-                  className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm text-slate-800 border-2 border-slate-800'
+                  className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm text-gray-800 border-2 border-gray-200'
                   {...register("date")}
                 />
               </div>
               <div className='mt-5 flex flex-col'>
-                <p className='text-slate-800 text-md font-bold'>Hora</p>
+                <p className='text-gray-200 text-md font-bold'>Hora</p>
                 <input
                   type='time'
-                  className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm text-slate-800 border-2 border-slate-800'
+                  className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm text-gray-800 border-2 border-gray-200'
                   {...register("time")}
                 />
               </div>
               <button
                 type='submit'
-                className='w-5/6 h-9 bg-slate-800 rounded-md mt-5 flex items-center justify-center text-md text-slate-50 font-medium '
+                className='w-5/6 h-12 bg-orange-300 rounded-md text-xl mt-5 flex items-center justify-center text-md text-gray-100 font-medium '
               >
                 Editar
               </button>
             </form>
           </>
         )}
-
-        <section className='w-11/12 min-h-72 pt-3 px-3 text-lg mb-6 text-slate-800 antialised '>
-          <h1 className='mb-3 font-black text-xl'>Evento Atual</h1>
-
-          <div className='border-b border-slate-400 mb-3 pb-2'>
-            {defaultEvent.title}
-          </div>
-          <div className='border-b border-slate-400 mb-3 pb-2'>
-            {defaultEvent.shortDescription}
-          </div>
-          <div className='border-b border-slate-400 mb-3 pb-2'>
-            {defaultEvent.description}
-          </div>
-          <div className='border-b border-slate-400 mb-3 pb-2'>
-            {defaultEvent.adress}
-          </div>
-          <div className='border-b border-slate-400 mb-3 pb-2'>
-            {defaultEvent.date}
-          </div>
-          <div className='border-b border-slate-400 mb-3 pb-2'>
-            {defaultEvent.time}
-          </div>
-          <img
-            className='w-2/3 h-4/5 mt-5 rounded-xl'
-            src={defaultEvent.imageurl}
-          />
-        </section>
       </main>
     </>
   );

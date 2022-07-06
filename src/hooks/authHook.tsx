@@ -67,6 +67,10 @@ export function AuthContext({ children }) {
             console.log(error);
           });
       }
+      //@ts-ignore
+      if (data[0].admin === false) {
+        setLoginError("Esse usuário não é administador");
+      }
     } catch (error) {
       console.log(error);
     }
