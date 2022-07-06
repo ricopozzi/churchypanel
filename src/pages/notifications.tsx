@@ -90,9 +90,12 @@ export default function Notifications() {
             Mural de Avisos
           </h1>
           <div className='min-h-10 w-full'>
-            {board?.map((item: any) => {
+            {board?.map((item: any, index: any) => {
               return (
-                <div className='px-2 border-b mt-5 border-gray-600 min-h-10 '>
+                <div
+                  key={index}
+                  className='px-2 border-b mt-5 border-gray-600 min-h-10 '
+                >
                   <h1 className='text-lg text-gray-200 font-semibold'>
                     {item.title}
                   </h1>
