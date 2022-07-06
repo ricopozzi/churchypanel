@@ -130,7 +130,7 @@ export default function SimpleEvents() {
 
   return (
     <>
-      <main className='w-screen min-h-screen md:w-2/5 mx-auto flex pt-10 items-center flex-col'>
+      <main className='w-screen min-h-screen md:w-2/5 mx-auto flex pt-10 pb-10 items-center flex-col'>
         <Header />
         <Link href='/events'>
           <FaArrowLeft
@@ -183,113 +183,106 @@ export default function SimpleEvents() {
           Novo Evento <FaPlus className='ml-2' />
         </button>
         {newEventOpened ? (
-          <>
-            <form
-              onSubmit={handleSubmit(onNewEventSubmit)}
-              className=' w-full min-h-48 py-16 px-3'
-            >
-              <div>
-                <p className='text-gray-200 text-md font-bold'>
-                  Imagem de fundo
-                </p>
+          <form
+            onSubmit={handleSubmit(onNewEventSubmit)}
+            className='w-full min-h-0 py-16 px-3'
+          >
+            <div>
+              <p className='text-gray-200 text-md font-bold'>Imagem de fundo</p>
 
-                <input
-                  type='file'
-                  className='text-gray-200 mt-2'
-                  accept='.png,.jpeg,.jpg,.JPG,.JPEG'
-                  //@ts-ignore
-                  onChange={(e) => setImage(e.target.files[0])}
-                />
-              </div>
-              <div className='mt-5 flex flex-col'>
-                <p className='text-gray-200 text-md font-bold'>Título</p>
-                <input
-                  type='text'
-                  className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm border-2 border-slate-800'
-                  {...register("title", { required: true, maxLength: 24 })}
-                />
-                <p className='text-red-600'>
-                  {errors.title && "É necessário um título"}
-                </p>
-              </div>
-              <div className='mt-5 flex flex-col'>
-                <p className='text-gray-200 mb-2 text-md font-bold'>
-                  Dia da Semana
-                </p>
-                <Controller
-                  name='ReactSelect'
-                  control={control}
-                  render={({ field }) => (
-                    <ReactSelect
-                      isClearable
-                      {...field}
-                      placeholder='Selecione o dia da semana'
-                      options={[
-                        { value: "Segunda-Feira", label: "Segunda-Feira" },
-                        { value: "Terça-Feira", label: "Terça-Feira" },
-                        { value: "Quarta-Feira", label: "Quarta-Feira" },
-                        { value: "Quinta-Feira", label: " Quinta-Feira" },
-                        { value: "Sexta-Feira", label: "Sexta-Feira" },
-                        { value: "Sábado", label: "Sábado" },
-                        { value: "Domingo", label: "Domingo" },
-                      ]}
-                    />
-                  )}
-                />
-                <p className='text-red-600'>
-                  {errors.title && "É necessário um título"}
-                </p>
-              </div>
-              <div className='mt-5 flex flex-col'>
-                <p className='text-gray-200 text-sm font-bold'>
-                  Descrição curta (max: 60 caracteres)
-                </p>
-                <textarea
-                  className='mt-2 w-5/6 h-16 rounded-md px-2 text-sm border-2 border-slate-800'
-                  {...register("shortDescription", {
-                    maxLength: 60,
-                    required: true,
-                  })}
-                />
-                <p className='text-red-600'>
-                  {errors.shortDescription &&
-                    "A descrição é necessária (máx: 60 caracteres) "}
-                </p>
-              </div>
-              <div className='mt-5 flex flex-col'>
-                <p className='text-gray-200 text-md font-bold'>Endereço</p>
-                <input
-                  type='text'
-                  className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm border-2 border-slate-800'
-                  {...register("adress", { required: true })}
-                />
-                <p className='text-red-600'>
-                  {errors.adress && "É necessário um endereço"}
-                </p>
-              </div>
-              <div className='mt-5 flex flex-col'>
-                <p className='text-gray-200 text-md font-bold'>Hora</p>
-                <input
-                  type='time'
-                  className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm border-2 border-slate-800'
-                  {...register("time", { required: true })}
-                />
-                <p className='text-red-600'>
-                  {errors.time && "É necessário um horário"}
-                </p>
-              </div>
-              <button
-                type='submit'
-                className='w-5/6 h-12 bg-yellow-600 text-slate-100 rounded-md mt-5 flex items-center justify-center text-lg font-medium '
-              >
-                Enviar
-              </button>
-            </form>
-          </>
-        ) : (
-          <p></p>
-        )}
-        <div className=' w-11/12 min-h-screen py-16 px-3'></div>
+              <input
+                type='file'
+                className='text-gray-200 mt-2'
+                accept='.png,.jpeg,.jpg,.JPG,.JPEG'
+                //@ts-ignore
+                onChange={(e) => setImage(e.target.files[0])}
+              />
+            </div>
+            <div className='mt-5 flex flex-col'>
+              <p className='text-gray-200 text-md font-bold'>Título</p>
+              <input
+                type='text'
+                className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm border-2 border-slate-800'
+                {...register("title", { required: true, maxLength: 24 })}
+              />
+              <p className='text-red-600'>
+                {errors.title && "É necessário um título"}
+              </p>
+            </div>
+            <div className='mt-5 flex flex-col'>
+              <p className='text-gray-200 mb-2 text-md font-bold'>
+                Dia da Semana
+              </p>
+              <Controller
+                name='ReactSelect'
+                control={control}
+                render={({ field }) => (
+                  <ReactSelect
+                    isClearable
+                    {...field}
+                    placeholder='Selecione o dia da semana'
+                    options={[
+                      { value: "Segunda-Feira", label: "Segunda-Feira" },
+                      { value: "Terça-Feira", label: "Terça-Feira" },
+                      { value: "Quarta-Feira", label: "Quarta-Feira" },
+                      { value: "Quinta-Feira", label: " Quinta-Feira" },
+                      { value: "Sexta-Feira", label: "Sexta-Feira" },
+                      { value: "Sábado", label: "Sábado" },
+                      { value: "Domingo", label: "Domingo" },
+                    ]}
+                  />
+                )}
+              />
+              <p className='text-red-600'>
+                {errors.title && "É necessário um título"}
+              </p>
+            </div>
+            <div className='mt-5 flex flex-col'>
+              <p className='text-gray-200 text-sm font-bold'>
+                Descrição curta (max: 60 caracteres)
+              </p>
+              <textarea
+                className='mt-2 w-5/6 h-16 rounded-md px-2 text-sm border-2 border-slate-800'
+                {...register("shortDescription", {
+                  maxLength: 60,
+                  required: true,
+                })}
+              />
+              <p className='text-red-600'>
+                {errors.shortDescription &&
+                  "A descrição é necessária (máx: 60 caracteres) "}
+              </p>
+            </div>
+            <div className='mt-5 flex flex-col'>
+              <p className='text-gray-200 text-md font-bold'>Endereço</p>
+              <input
+                type='text'
+                className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm border-2 border-slate-800'
+                {...register("adress", { required: true })}
+              />
+              <p className='text-red-600'>
+                {errors.adress && "É necessário um endereço"}
+              </p>
+            </div>
+            <div className='mt-5 flex flex-col'>
+              <p className='text-gray-200 text-md font-bold'>Hora</p>
+              <input
+                type='time'
+                className='mt-2 w-5/6 h-8 rounded-md px-2 text-sm border-2 border-slate-800'
+                {...register("time", { required: true })}
+              />
+              <p className='text-red-600'>
+                {errors.time && "É necessário um horário"}
+              </p>
+            </div>
+            <button
+              type='submit'
+              className='w-5/6 h-12 bg-yellow-600 text-slate-100 rounded-md mt-5 flex items-center justify-center text-lg font-medium '
+            >
+              Enviar
+            </button>
+          </form>
+        ) : null}
       </main>
     </>
   );

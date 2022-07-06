@@ -120,7 +120,7 @@ export default function Events() {
                 {defaultEvent.time}
               </div>
               <img
-                className='lg:w-2/3 h-4/5 mt-5 rounded-xl border-4 border-gray-100/40'
+                className='lg:w-[30rem] h-[30vh] mt-5 rounded-xl border-4 border-gray-100/40 object-contain'
                 src={defaultEvent.imageurl}
               />
             </section>

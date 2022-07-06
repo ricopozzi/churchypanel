@@ -20,7 +20,7 @@ export const SectionCard = ({
   delay = 1,
 }: CardProps) => {
   return (
-    <div className='hover:-translate-y-4 duration-300 rounded-xl w-[90%] md:w-[85%] lg:w-96 h-96 '>
+    <div className='lg:hover:-translate-y-4 duration-300 rounded-xl w-[90%] md:w-[85%] lg:w-96 h-96 '>
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
