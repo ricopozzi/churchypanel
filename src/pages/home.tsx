@@ -19,7 +19,7 @@ export default function HomePage() {
           <Header />
           <Logout />
         </div>
-        <section className='w-full lg:w-[75%] min-h-[40vh] mt-10 flex flex-wrap gap-x-8 gap-y-4 justify-center items-center'>
+        <section className='w-full lg:w-[75%] min-h-[40vh] mt-10 flex flex-wrap gap-x-8 gap-y-10 justify-center items-center'>
           <SectionCard
             title='Eventos'
             description='Edite a aba "Eventos" do app '
@@ -50,7 +50,7 @@ export default function HomePage() {
         </section>
         <div
           onClick={() => router.push("/notifications")}
-          className='w-[90%] lg:w-[60%] mt-6 mb-10 bg-[#202024] rounded-xl min-h-[30vh] flex flex-col lg:flex-row justify-center p-5 cursor-pointer duration-200 hover:scale-105 '
+          className='w-[90%] lg:w-[60%] mt-10 mb-10 bg-[#202024] rounded-xl min-h-[30vh] flex flex-col lg:flex-row justify-center p-5 cursor-pointer duration-200 hover:scale-105 '
         >
           <aside className='h-full w-1/3 mx-auto flex items-center jusitfy-center'>
             <NotificationLoader backgroundColor='#fed7aa' />
