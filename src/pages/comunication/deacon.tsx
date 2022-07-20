@@ -31,17 +31,28 @@ export default function Deacon() {
       //@ts-ignore
       deacons.map((item) => tokens.push(item.pushtoken));
 
-      const {} = await axios.post("/api/notify", {
-        data: {
-          to: tokens,
-          title: data.title,
-          body: data.body,
+      const { data: reqData } = await axios.post(
+        "/api/notify",
+        {
+          data: {
+            to: tokens,
+            title: data.title,
+            body: data.body,
+          },
         },
-      });
+        {
+          timeout: 10000,
+          timeoutErrorMessage:
+            "Falha ao enviar notificações, provavelmente por causa de baixa conexão com internet",
+        }
+      );
+
+      return reqData;
     } catch (error) {
       setLoading(false);
-
       return alert("Não há diáconos cadastrados");
+    } finally {
+      return setLoading(false);
     }
   };
 

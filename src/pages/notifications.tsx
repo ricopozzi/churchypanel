@@ -56,21 +56,33 @@ export default function Notifications() {
 
   const sendNotification = async (pushTitle: string, pushBody: string) => {
     setIsLoading(true);
-    const { data: notificatonData, status } = await axios.post("/api/notify", {
-      data: {
-        to: tokens,
-        title: pushTitle,
-        body: pushBody,
-      },
-    });
+    try {
+      const { data: notificatonData, status } = await axios.post(
+        "/api/notify",
+        {
+          data: {
+            to: tokens,
+            title: pushTitle,
+            body: pushBody,
+          },
+        },
+        {
+          timeout: 10000,
+          timeoutErrorMessage:
+            "Falha ao enviar notificações, provavelmente por causa de baixa conexão com internet",
+        }
+      );
 
-    const {} = await supabase
-      .from("notifications")
-      .insert([{ title: pushTitle, description: pushBody }]);
-
-    setIsLoading(false);
-
-    return notificatonData;
+      const {} = await supabase
+        .from("notifications")
+        .insert([{ title: pushTitle, description: pushBody }]);
+      return notificatonData;
+    } catch (error) {
+      setIsLoading(false);
+      return alert(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
