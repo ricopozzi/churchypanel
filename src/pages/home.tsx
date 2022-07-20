@@ -14,7 +14,7 @@ export default function HomePage() {
 
   return (
     <>
-      <main className='w-screen min-h-screen flex pt-10 items-center flex-col'>
+      <main className='max-w-screen min-h-screen flex pt-10 items-center flex-col'>
         <div className='flex gap-x-6 items-center'>
           <Header />
           <Logout />
@@ -44,6 +44,13 @@ export default function HomePage() {
             title='Palavras'
             description='Edite a Palavra diária e o devocional'
             navigate={() => router.push("/words")}
+            asset={<Rhema backgroundColor='#fed7aa' />}
+            delay={1.5}
+          />
+          <SectionCard
+            title='Comunicação'
+            description='Gerencie a comunicação do app'
+            navigate={() => router.push("/comunication")}
             asset={<Rhema backgroundColor='#fed7aa' />}
             delay={1.5}
           />

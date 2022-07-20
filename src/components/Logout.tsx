@@ -8,7 +8,7 @@ export function Logout() {
   return (
     <>
       <div
-        className='w-32 lg:w-40 h-9 bg-yellow-600 flex justify-center items-center rounded-md tracking-wide text-gray-300 font-bold text-xl cursor-pointer gap-x-2'
+        className='w-24 lg:w-32 h-9 bg-yellow-600 flex justify-center items-center rounded-md tracking-wide text-gray-300 font-bold text-xl cursor-pointer gap-x-2'
         onClick={signOutUser}
       >
         Sair

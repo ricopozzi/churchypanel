@@ -27,7 +27,7 @@ const Home: NextPage = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const { loginUser, session, loginError } = useContext(authContext);
+  const { loginUser, loginError } = useContext(authContext);
 
   const onSubmit = async (data: any) => {
     setLoading(true);
